@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Test;
 import pages.ProfilePage;
 
 
-@Tag("book")
+@Tag("API")
 @DisplayName("Tests for Book Store Application")
-public class BooksStoreTests extends TestBase {
+public class DeleteBookTest extends TestBase {
 
     final ProfilePage profilePage = new ProfilePage();
-    final AddNewBook addNewBook = new AddNewBook ();
+    final AddNewBookTest addNewBook = new AddNewBookTest ();
 
     @Test
     @DisplayName("Delete a book from user profile")

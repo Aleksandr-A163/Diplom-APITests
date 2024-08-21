@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static io.restassured.RestAssured.given;
 import static specs.RequestResponseSpecs.*;
 
-public class AddNewBook {
+public class AddNewBookTest  {
     static final TestDataConfig testDataConfig = ConfigFactory.create(TestDataConfig.class, System.getProperties());
 
     @Step("Add a new book to user profile")
