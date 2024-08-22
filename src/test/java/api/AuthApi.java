@@ -2,6 +2,7 @@ package api;
 
 import io.qameta.allure.Step;
 import config.TestDataConfig;
+import helpers.FakerData;
 import models.*;
 import static com.codeborne.selenide.Selenide.open;
 import org.openqa.selenium.Cookie;
@@ -17,12 +18,25 @@ public class AuthApi {
     static final TestDataConfig testDataConfig = ConfigFactory.create(TestDataConfig.class, System.getProperties());
 
     private static String userId;
+    private static String userLogin;  // Сохраняем сгенерированный логин
+    private static String userPassword;  // Сохраняем сгенерированный пароль
+
+    private static String generateUserLogin() {
+        return FakerData.generateUsername();
+    }
+
+    private static String generateUserPassword() {
+        return FakerData.generatePassword(9, 16);
+    }
 
     @Step("Create a new user")
     public static void registerUser() {
+        userLogin = generateUserLogin();  // Сохраняем сгенерированный логин
+        userPassword = generateUserPassword();  // Сохраняем сгенерированный пароль
+
         RegistrationLoginRequestModel userData = new RegistrationLoginRequestModel();
-        userData.setUserName(testDataConfig.userLogin());
-        userData.setPassword(testDataConfig.userPassword());
+        userData.setUserName(userLogin);
+        userData.setPassword(userPassword);
 
         Response response = given(registerAndLoginRequestSpec)
                 .body(userData)
@@ -34,7 +48,6 @@ public class AuthApi {
 
         System.out.println("Registration Raw Response: " + response.asString());
 
-        // Extract userId from the response
         if (response.getContentType().contains("application/json")) {
             RegistrationResponseModel registrationResponse = response.as(RegistrationResponseModel.class);
             userId = registrationResponse.getUserId();
@@ -46,8 +59,8 @@ public class AuthApi {
     @Step("Get authorization token")
     public static LoginResponseModel getToken() {
         RegistrationLoginRequestModel userData = new RegistrationLoginRequestModel();
-        userData.setUserName(testDataConfig.userLogin());
-        userData.setPassword(testDataConfig.userPassword());
+        userData.setUserName(userLogin);  // Используем сохраненный логин
+        userData.setPassword(userPassword);  // Используем сохраненный пароль
 
         Response response = given(registerAndLoginRequestSpec)
                 .body(userData)
@@ -62,8 +75,7 @@ public class AuthApi {
         if (response.getContentType().contains("application/json")) {
             LoginResponseModel loginResponse = response.as(LoginResponseModel.class);
 
-            // Set the userId obtained during registration
-            loginResponse.setUserId(userId);
+            loginResponse.setUserId(userId);  // Устанавливаем userId
 
             System.out.println("Authorization Token Response: " + loginResponse);
 
