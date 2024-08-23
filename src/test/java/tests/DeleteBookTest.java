@@ -9,16 +9,17 @@ import pages.ProfilePage;
 
 @Tag("API")
 @DisplayName("Tests for Book Store Application")
+@Owner("Anosov Aleksandr")
 public class DeleteBookTest extends TestBase {
 
     final ProfilePage profilePage = new ProfilePage();
-    final AddNewBookTest addNewBook = new AddNewBookTest ();
+    final AddNewBook addNewBook = new AddNewBook();
 
     @Test
     @DisplayName("Delete a book from user profile")
     @Owner("Anosov Aleksandr")
     @WithLogin
-    void deleteBookFromProfileBooksListTest() {
+    public void deleteBookFromProfileBooksListTest() {
         addNewBook.addListOfBook();
         profilePage.openProfilePage()
             .removeBanner()

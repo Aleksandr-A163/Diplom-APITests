@@ -12,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static io.restassured.RestAssured.given;
 import static specs.RequestResponseSpecs.*;
 
-public class AddNewBookTest {
+public class AddNewBook {
 
     @Step("Add a new book to user profile")
     public void addListOfBook() {
