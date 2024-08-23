@@ -4,6 +4,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 
@@ -21,9 +22,15 @@ public class ProfilePage {
     }
 
 
-    @Step("Check the book is in the profile")
+    @Step("Check the profile page")
     public ProfilePage openProfilePage() {
         open("/profile");
+        return this;
+    }
+
+    @Step("Check the book is in the profile")
+    public ProfilePage checkBookIsInProfile(String isbn) {
+        $("a[href*='/profile?book=" + isbn + "']").should(exist);
         return this;
     }
 

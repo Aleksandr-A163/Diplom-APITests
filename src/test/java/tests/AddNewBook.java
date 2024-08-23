@@ -14,6 +14,8 @@ import static specs.RequestResponseSpecs.*;
 
 public class AddNewBook {
 
+    private String isbn;  // Поле для хранения значения ISBN
+
     @Step("Add a new book to user profile")
     public void addListOfBook() {
         AddBookToBasketRequestBodyModel bookData = new AddBookToBasketRequestBodyModel();
@@ -21,7 +23,7 @@ public class AddNewBook {
         String userID = AuthApi.extractValueFromCookieString("userID");
         String token = AuthApi.extractValueFromCookieString("token");
 
-        String isbn = TestData.getRandomIsbn();  // Получаем случайное значение ISBN
+        this.isbn = TestData.getRandomIsbn();  // Сохраняем случайное значение ISBN
         System.out.println("Generated ISBN: " + isbn);  // Вывод значения для отладки
 
         bookData.setUserId(userID);
@@ -42,5 +44,10 @@ public class AddNewBook {
 
         assertThat(bookData.getCollectionOfIsbns()
                 .get(0).getIsbn(), equalTo(addBookResponse.path("books[0].isbn")));
+    }
+
+    // Метод для получения значения ISBN
+    public String getIsbn() {
+        return this.isbn;
     }
 }
