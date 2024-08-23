@@ -16,7 +16,6 @@ public class RequestResponseSpecs {
             .contentType(JSON)
             .log().all();
 
-
     public static ResponseSpecification loginResponseSpec200 = new ResponseSpecBuilder()
             .expectStatusCode(200)
             .log(ALL)
@@ -24,6 +23,11 @@ public class RequestResponseSpecs {
 
     public static ResponseSpecification responseSpec201 = new ResponseSpecBuilder()
            .expectStatusCode(201)
+           .log(ALL)
+           .build();
+
+    public static ResponseSpecification unauthorizedResponseSpec401 = new ResponseSpecBuilder()
+           .expectStatusCode(401)
            .log(ALL)
            .build();
 }

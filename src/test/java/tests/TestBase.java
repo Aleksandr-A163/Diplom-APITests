@@ -31,7 +31,6 @@ public class TestBase {
         if (!Configuration.browser.equals("firefox")) {
             Attachments.browserConsoleLogs();
         }
-        Attachments.addVideo();
         closeWebDriver();
     }
 }

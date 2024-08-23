@@ -11,7 +11,7 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 import static specs.RequestResponseSpecs.*;
 
-public class AuthApi {
+public class ApiSteps {
 
     private static String userId;
     private static String userLogin;  // Сохраняем сгенерированный логин
@@ -104,4 +104,58 @@ public class AuthApi {
         String cookieValue = String.valueOf(getWebDriver().manage().getCookieNamed(cookieString));
         return cookieValue.substring(cookieValue.indexOf("=") + 1, cookieValue.indexOf(";"));
     }
+
+    @Step("Get user data by user ID")
+    public static LoginResponseModel getUserData() {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID is not set. Please register a user first.");
+        }
+
+        String token = extractValueFromCookieString("token");
+
+        Response response = given()
+                .spec(registerAndLoginRequestSpec)
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .get("/Account/v1/User/" + userId)
+                .then()
+                .spec(loginResponseSpec200)
+                .extract().response();
+
+        System.out.println("User Data Raw Response: " + response.asString());
+
+        if (response.getContentType().contains("application/json")) {
+            LoginResponseModel userDataResponse = response.as(LoginResponseModel.class);
+
+            System.out.println("User Data Response: " + userDataResponse);
+
+            return userDataResponse;
+        } else {
+            throw new IllegalStateException("Unexpected content type: " + response.getContentType());
+        }
+    }
+
+    @Step("Attempt to get user data with invalid credentials")
+    public static Response getUserDataUnauthorized() {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID is not set. Please register a user first.");
+        }
+
+        // Здесь мы намеренно не передаем токен или передаем некорректный токен
+        String invalidToken = "invalid_token";
+
+        Response response = given()
+                .spec(registerAndLoginRequestSpec)
+                .header("Authorization", "Bearer " + invalidToken)  // Используем некорректный токен
+                .when()
+                .get("/Account/v1/User/" + userId)
+                .then()
+                .spec(unauthorizedResponseSpec401)  // Ожидаем ответ 401 Unauthorized
+                .extract().response();
+
+        System.out.println("Unauthorized User Data Response: " + response.asString());
+
+        return response;
+    }
+
 }

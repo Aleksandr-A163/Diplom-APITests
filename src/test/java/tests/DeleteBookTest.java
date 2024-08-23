@@ -20,7 +20,7 @@ public class DeleteBookTest extends TestBase {
     @Owner("Anosov Aleksandr")
     @WithLogin
     public void deleteBookFromProfileBooksListTest() {
-        addNewBook.addListOfBook();
+        addNewBook.addRandomBook();
         profilePage.openProfilePage()
             .removeBanner()
             .deleteBook()

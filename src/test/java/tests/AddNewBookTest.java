@@ -19,10 +19,18 @@ public class AddNewBookTest extends TestBase {
     @Owner("Anosov Aleksandr")
     @WithLogin
     public void addBookToCustomerProfileBooksListTest() {
-        addNewBook.addListOfBook();
+        addNewBook.addRandomBook();
         String isbn = addNewBook.getIsbn();  // Получаем значение ISBN
         profilePage.openProfilePage()
             .removeBanner()
             .checkBookIsInProfile(isbn);  // Передаем ISBN для проверки
+    }
+
+    @Test
+    @DisplayName("Attempt to add a book with invalid token")
+    @Owner("Anosov Aleksandr")
+    @WithLogin
+    public void addBookToCustomerProfileWithInvalidTokenTest() {
+        addNewBook.addBookWithInvalidToken();  // Вызов метода для добавления книги с некорректным токеном
     }
 }
