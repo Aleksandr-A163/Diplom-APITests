@@ -15,8 +15,6 @@ import static specs.RequestResponseSpecs.*;
 
 public class AuthApi {
 
-    static final TestDataConfig testDataConfig = ConfigFactory.create(TestDataConfig.class, System.getProperties());
-
     private static String userId;
     private static String userLogin;  // Сохраняем сгенерированный логин
     private static String userPassword;  // Сохраняем сгенерированный пароль
