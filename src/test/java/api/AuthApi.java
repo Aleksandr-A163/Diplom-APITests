@@ -1,12 +1,10 @@
 package api;
 
 import io.qameta.allure.Step;
-import config.TestDataConfig;
 import helpers.FakerData;
 import models.*;
 import static com.codeborne.selenide.Selenide.open;
 import org.openqa.selenium.Cookie;
-import org.aeonbits.owner.ConfigFactory;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 import io.restassured.response.Response;
