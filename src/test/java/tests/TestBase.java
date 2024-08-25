@@ -32,6 +32,7 @@ public class TestBase {
     void addAttachments() {
         Attachments.screenshotAs("Last step screenshot");
         Attachments.pageSource();
+        Attachments.browserConsoleLogs();
         closeWebDriver();
     }
 }
