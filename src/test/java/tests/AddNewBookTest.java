@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
 import pages.ProfilePage;
 
 
-@Tag("Book")
 @DisplayName("Tests for adding a book in the Store Application")
 @Owner("Anosov Aleksandr")
 @Story("Book add actions")
 @Feature("Book Store")
+@Tag("Book")
 public class AddNewBookTest extends TestBase {
     final ProfilePage profilePage = new ProfilePage();
     final ApiSteps addNewBook = new ApiSteps();

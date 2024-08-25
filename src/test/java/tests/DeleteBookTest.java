@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.ProfilePage;
 
-
-
 @DisplayName("Tests for deleting a book in the Store Application")
 @Owner("Anosov Aleksandr")
 @Story("Book delete actions")
