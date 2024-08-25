@@ -1,4 +1,5 @@
 package tests;
+import api.ApiSteps;
 import helpers.WithLogin;
 import io.qameta.allure.Owner;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +13,7 @@ import pages.ProfilePage;
 @Owner("Anosov Aleksandr")
 public class AddNewBookTest extends TestBase {
     final ProfilePage profilePage = new ProfilePage();
-    final AddNewBook addNewBook = new AddNewBook();
+    final ApiSteps addNewBook = new ApiSteps();
 
     @Test
     @DisplayName("Add a random book to user profile")

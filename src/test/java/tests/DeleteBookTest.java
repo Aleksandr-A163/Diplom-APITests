@@ -15,7 +15,6 @@ import pages.ProfilePage;
 public class DeleteBookTest extends TestBase {
 
     final ProfilePage profilePage = new ProfilePage();
-    final AddNewBook addNewBook = new AddNewBook();
     final ApiSteps apiSteps = new ApiSteps();
 
     @Test
@@ -23,8 +22,8 @@ public class DeleteBookTest extends TestBase {
     @Owner("Anosov Aleksandr")
     @WithLogin
     public void deleteBookFromProfileBooksListTest() {
-        addNewBook.addRandomBook();
-        String isbn = addNewBook.getIsbn();
+        apiSteps.addRandomBook();
+        String isbn = apiSteps.getIsbn();
             apiSteps.deleteBookByIsbn(isbn);
             profilePage.openProfilePage()
             .removeBanner()
@@ -37,8 +36,8 @@ public class DeleteBookTest extends TestBase {
     @WithLogin
     public void deleteNonExistentBookFromProfileTest() {
         // Добавляем книгу с использованием случайного ISBN
-        addNewBook.addRandomBook();
-        String addedIsbn = addNewBook.getIsbn();
+        apiSteps.addRandomBook();
+        String addedIsbn = apiSteps.getIsbn();
 
         // Получаем другой случайный ISBN, который не равен добавленному
         String nonExistentIsbn;

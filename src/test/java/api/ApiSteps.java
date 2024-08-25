@@ -2,20 +2,26 @@ package api;
 
 import io.qameta.allure.Step;
 import helpers.FakerData;
+import config.TestData;
 import models.*;
 import static com.codeborne.selenide.Selenide.open;
+import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.Cookie;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 import static specs.RequestResponseSpecs.*;
+import static io.restassured.http.ContentType.JSON;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ApiSteps {
 
     private static String userId;
     private static String userLogin;  // Сохраняем сгенерированный логин
-    private static String userPassword;  // Сохраняем сгенерированный пароль
+    private static String userPassword;// Сохраняем сгенерированный пароль
+    private String isbn;  // Поле для хранения значения ISBN
 
     private static String generateUserLogin() {
         return FakerData.generateUsername();
@@ -25,6 +31,7 @@ public class ApiSteps {
         return FakerData.generatePassword(9, 16);
     }
 
+    @DisplayName("User API actions")
     @Step("Create a new user")
     public static void registerUser() {
         userLogin = generateUserLogin();  // Сохраняем сгенерированный логин
@@ -158,6 +165,71 @@ public class ApiSteps {
         return response;
     }
 
+
+
+    @DisplayName("Book API actions")
+    @Step("Add a new book to user profile")
+    public void addRandomBook() {
+        AddBookToBasketRequestBodyModel bookData = new AddBookToBasketRequestBodyModel();
+
+        String userID = ApiSteps.extractValueFromCookieString("userID");
+        String token = ApiSteps.extractValueFromCookieString("token");
+
+        this.isbn = TestData.getRandomIsbn();  // Сохраняем случайное значение ISBN
+        System.out.println("Generated ISBN: " + isbn);  // Вывод значения для отладки
+
+        bookData.setUserId(userID);
+        bookData.setIsbn(this.isbn);  // Устанавливаем значение ISBN
+
+        Response addBookResponse = given(registerAndLoginRequestSpec)
+                .contentType(JSON)
+                .header("Authorization", "Bearer " + token)
+                .body(bookData)
+                .when()
+                .post("BookStore/v1/Books")
+                .then()
+                .spec(responseSpec201)
+                .extract()
+                .response();
+
+        System.out.println("Response: " + addBookResponse.asString());  // Вывод ответа сервера для отладки
+
+        assertThat(bookData.getCollectionOfIsbns()
+                .get(0).getIsbn(), equalTo(addBookResponse.path("books[0].isbn")));
+    }
+
+    @Step("Attempt to add a book with invalid token")
+    public void addBookWithInvalidToken() {
+        AddBookToBasketRequestBodyModel bookData = new AddBookToBasketRequestBodyModel();
+
+        String userID = ApiSteps.extractValueFromCookieString("userID");
+        String invalidToken = "invalid_token";
+
+        this.isbn = TestData.getRandomIsbn();  // Сохраняем случайное значение ISBN
+        System.out.println("Generated ISBN: " + isbn);  // Вывод значения для отладки
+
+        bookData.setUserId(userID);
+        bookData.setIsbn(this.isbn);  // Устанавливаем значение ISBN
+
+        Response addBookResponse = given(registerAndLoginRequestSpec)
+                .contentType(JSON)
+                .header("Authorization", "Bearer " + invalidToken)  // Некорректный токен
+                .body(bookData)
+                .when()
+                .post("BookStore/v1/Books")
+                .then()
+                .spec(unauthorizedResponseSpec401)  // Ожидаем код 401 Unauthorized
+                .extract()
+                .response();
+
+        System.out.println("Unauthorized Add Book Response: " + addBookResponse.asString());
+
+        assertThat(addBookResponse.getStatusCode()).isEqualTo(401);
+
+        String errorMessage = addBookResponse.jsonPath().getString("message");
+        System.out.println("Error Message: " + errorMessage);
+    }
+
     @Step("Delete a book from user profile by ISBN")
     public static Response deleteBookByIsbn(String isbn) {
         if (userId == null) {
@@ -188,30 +260,35 @@ public class ApiSteps {
 
     @Step("Attempt to delete a non-existent book by ISBN")
     public static Response deleteNonExistentBookByIsbn(String isbn) {
-    if (userId == null) {
-        throw new IllegalArgumentException("User ID is not set. Please register a user first.");
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID is not set. Please register a user first.");
+        }
+
+        String token = extractValueFromCookieString("token");
+
+        // Создание тела запроса для удаления несуществующей книги
+        DeleteBooksRequestModel deleteBookData = new DeleteBooksRequestModel();
+        deleteBookData.setUserId(userId);
+        deleteBookData.setIsbn(isbn);
+
+        Response response = given()
+                .spec(registerAndLoginRequestSpec)
+                .header("Authorization", "Bearer " + token)
+                .body(deleteBookData)
+                .when()
+                .delete("/BookStore/v1/Book")
+                .then()
+                .spec(responseSpec400)  // Ожидаем код 400 Bad Request или 404 Not Found
+                .extract().response();
+
+        System.out.println("Delete Non-Existent Book Response: " + response.asString());
+
+        return response;
     }
 
-    String token = extractValueFromCookieString("token");
-
-    // Создание тела запроса для удаления несуществующей книги
-    DeleteBooksRequestModel deleteBookData = new DeleteBooksRequestModel();
-    deleteBookData.setUserId(userId);
-    deleteBookData.setIsbn(isbn);
-
-    Response response = given()
-            .spec(registerAndLoginRequestSpec)
-            .header("Authorization", "Bearer " + token)
-            .body(deleteBookData)
-            .when()
-            .delete("/BookStore/v1/Book")
-            .then()
-            .spec(responseSpec400)  // Ожидаем код 400 Bad Request или 404 Not Found
-            .extract().response();
-
-    System.out.println("Delete Non-Existent Book Response: " + response.asString());
-
-    return response;
-}
+    // Метод для получения значения ISBN
+    public String getIsbn() {
+        return this.isbn;
+    }
 
 }
