@@ -37,18 +37,18 @@ public class DeleteBookTest extends TestBase {
     @DisplayName("Attempt to delete a non-existent book from user profile")
     @Owner("Anosov Aleksandr")
     @WithLogin
-    public void deleteNonExistentBookFromProfileTest() {
+    public void deleteNonCorrectBookFromProfileTest(){
         // Добавляем книгу с использованием случайного ISBN
         apiSteps.addRandomBook();
         String addedIsbn = apiSteps.getIsbn();
 
         // Получаем другой случайный ISBN, который не равен добавленному
-        String nonExistentIsbn;
+        String nonCorrectIsbn;
         do {
-            nonExistentIsbn = TestData.getRandomIsbn();
-        } while (nonExistentIsbn.equals(addedIsbn));
+            nonCorrectIsbn = TestData.getRandomIsbn();
+        } while (nonCorrectIsbn.equals(addedIsbn));
 
         // Пытаемся удалить книгу с несуществующим ISBN
-        ApiSteps.deleteNonExistentBook(nonExistentIsbn);
+        ApiSteps.deleteNonCorrectBook(nonCorrectIsbn);
     }
 }

@@ -34,7 +34,13 @@
 Для удаленного запуска реализована джоба в <code>Jenkins</code> с формированием Allure-отчета и отправкой результатов в <code>Telegram</code> при помощи бота.
 
 ## :pushpin: Описание тестов:
-
+- ✓ *userAuthorizationTest() - Тест для корректной авторизации*
+- ✓ *invalidUserAuthorizationTest() - Тест для некорректной авторизации*
+- ✓ *addBookToCustomerProfileBooksListTest() - Тест для проверки добавления случайно выбранной книги в профиль пользователя* 
+- ✓ *addBookToCustomerProfileWithInvalidTokenTest() - Тест для проверки добавления случайно выбранной книги в профиль пользователя*
+- ✓ *deleteBookFromProfileBooksListTest() - Тест для проверки удаления случайно выбранной книги из профиль пользователя*
+- ✓ *deleteNonCorrectBookFromProfileTest()  - Тест для проверки удаления случайно выбранной книги из профиль пользователя*
+ 
  
 Содержание Allure-отчета:
 * Шаги теста;

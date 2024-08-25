@@ -25,10 +25,10 @@ public class AddNewBookTest extends TestBase {
     @WithLogin
     public void addBookToCustomerProfileBooksListTest() {
         addNewBook.addRandomBook();
-        String isbn = addNewBook.getIsbn();  // Получаем значение ISBN
+        String isbn = addNewBook.getIsbn();
         profilePage.openProfilePage()
             .removeBanner()
-            .checkBookIsInProfile(isbn);  // Передаем ISBN для проверки
+            .checkBookIsInProfile(isbn);
     }
 
     @Test
@@ -36,6 +36,6 @@ public class AddNewBookTest extends TestBase {
     @Owner("Anosov Aleksandr")
     @WithLogin
     public void addBookToCustomerProfileWithInvalidTokenTest() {
-        addNewBook.addBookWithInvalidToken();  // Вызов метода для добавления книги с некорректным токеном
+        addNewBook.addBookWithInvalidToken();
     }
 }

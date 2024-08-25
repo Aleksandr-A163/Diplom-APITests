@@ -255,7 +255,7 @@ public class ApiSteps {
     }
 
     @Step("Attempt to delete a non-existent book by ISBN")
-    public static Response deleteNonExistentBook(String isbn) {
+    public static Response deleteNonCorrectBook(String isbn) {
         String token = extractValueFromCookieString("token");
 
         // Создание тела запроса для удаления книги
