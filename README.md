@@ -53,14 +53,14 @@
 
 ### Запуск тестов из терминала
 ```
-gradle clean test API -Dhost=local
+gradle clean test API 
 ```
 При выполнении данной команды в терминале IDE тесты запустятся удаленно в <code>Selenoid</code>. 
 
 
 ## <img width="4%" style="vertical-align:middle" title="Jenkins" src="media/logo/Jenkins.svg"> Сборка в Jenkins
 
-Для запуска сборки необходимо перейти в раздел <code>Build with parameters</code> и нажать кнопку <code>Build</code>.
+Для запуска сборки необходимо перейти в раздел <code>Build now</code> и нажать кнопку <code>Build</code>.
 
 После выполнения сборки, в блоке <code>Build history</code> напротив номера сборки появятся значки <code>Allure Report</code> и <code>Allure TestOps</code>, при клике на которые откроется страница с сформированным html-отчетом и тестовой документацией соответственно.
 
@@ -95,19 +95,4 @@ gradle clean test API -Dhost=local
 <img width="70%" title="Telegram Notifications" src="media/screen/telegram.png">
 </p>
 
-### <img width="4%" style="vertical-align:middle" title="Selenoid" src="media/logo/Selenoid.svg"> Видео примера запуска тестов в Selenoid
-
-В отчетах Allure для каждого теста прикреплен не только скриншот, но и видео прохождения теста
-
-Тестирование поиска на сайте KWORK:
-
-<p align="center">
-  <img title="Selenoid Video" src="media/video/search.gif">
-</p>
-
-Тестирование модальных окон авторизации:
-
-<p align="center">
-  <img title="Selenoid Video" src="media/video/modal.gif">
-</p>
 
