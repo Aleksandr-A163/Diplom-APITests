@@ -231,7 +231,7 @@ public class ApiSteps {
     }
 
     @Step("Delete a book from user profile by ISBN")
-    public static Response deleteBookByIsbn(String isbn) {
+    public static Response deleteBook(String isbn) {
         if (userId == null) {
             throw new IllegalArgumentException("User ID is not set. Please register a user first.");
         }
@@ -259,7 +259,7 @@ public class ApiSteps {
     }
 
     @Step("Attempt to delete a non-existent book by ISBN")
-    public static Response deleteNonExistentBookByIsbn(String isbn) {
+    public static Response deleteNonExistentBook(String isbn) {
         if (userId == null) {
             throw new IllegalArgumentException("User ID is not set. Please register a user first.");
         }

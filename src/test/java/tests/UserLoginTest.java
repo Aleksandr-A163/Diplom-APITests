@@ -20,8 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Feature("User Authorization")
 public class UserLoginTest extends TestBase {
 
-    final ProfilePage profilePage = new ProfilePage();
-
     @Test
     @DisplayName("Authorization of a random user")
     @Owner("Anosov Aleksandr")
@@ -56,6 +54,7 @@ public class UserLoginTest extends TestBase {
     @Owner("Anosov Aleksandr")
     @Description("Test for handling invalid authorization with incorrect token.")
     @Story("User Authorization")
+    @Feature("User account")
     void invalidUserAuthorizationTest() {
         // Регистрация нового пользователя
         ApiSteps.registerUser();

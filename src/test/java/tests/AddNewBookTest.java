@@ -1,16 +1,20 @@
 package tests;
 import api.ApiSteps;
 import helpers.WithLogin;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.ProfilePage;
 
 
-@Tag("API")
+@Tag("Book")
 @DisplayName("Tests for Book Store Application")
 @Owner("Anosov Aleksandr")
+@Story("Book add actions")
+@Feature("Book Store")
 public class AddNewBookTest extends TestBase {
     final ProfilePage profilePage = new ProfilePage();
     final ApiSteps addNewBook = new ApiSteps();
