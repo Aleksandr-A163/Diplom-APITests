@@ -48,8 +48,6 @@ public class UserLoginTest extends TestBase {
         assertThat(userIdFromCookies).isEqualTo(loginResponse.getUserId());
         assertThat(tokenFromCookies).isEqualTo(loginResponse.getToken());
 
-        System.out.println("User ID from Cookies: " + userIdFromCookies);  // Вывод userId для отладки
-        System.out.println("Token from Cookies: " + tokenFromCookies);  // Вывод токена из cookies для отладки
         ApiSteps.getUserData();
     }
 
@@ -61,6 +59,12 @@ public class UserLoginTest extends TestBase {
     void invalidUserAuthorizationTest() {
         // Регистрация нового пользователя
         ApiSteps.registerUser();
+
+        // Получение токена авторизации
+        LoginResponseModel loginResponse = ApiSteps.getToken();
+
+        // Установка cookies в браузере
+        ApiSteps.setCookiesInBrowser(loginResponse);
 
         // Попытка получить данные пользователя с некорректным токеном
         Response unauthorizedResponse = ApiSteps.getUserDataUnauthorized();

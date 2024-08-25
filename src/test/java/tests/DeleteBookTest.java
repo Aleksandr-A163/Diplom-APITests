@@ -1,4 +1,6 @@
 package tests;
+import api.ApiSteps;
+import config.TestData;
 import helpers.WithLogin;
 import io.qameta.allure.Owner;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +16,7 @@ public class DeleteBookTest extends TestBase {
 
     final ProfilePage profilePage = new ProfilePage();
     final AddNewBook addNewBook = new AddNewBook();
+    final ApiSteps apiSteps = new ApiSteps();
 
     @Test
     @DisplayName("Delete a book from user profile")
@@ -21,9 +24,29 @@ public class DeleteBookTest extends TestBase {
     @WithLogin
     public void deleteBookFromProfileBooksListTest() {
         addNewBook.addRandomBook();
-        profilePage.openProfilePage()
+        String isbn = addNewBook.getIsbn();
+            apiSteps.deleteBookByIsbn(isbn);
+            profilePage.openProfilePage()
             .removeBanner()
-            .deleteBook()
             .checkBooksListIsEmpty();
+    }
+
+    @Test
+    @DisplayName("Attempt to delete a non-existent book from user profile")
+    @Owner("Anosov Aleksandr")
+    @WithLogin
+    public void deleteNonExistentBookFromProfileTest() {
+        // Добавляем книгу с использованием случайного ISBN
+        addNewBook.addRandomBook();
+        String addedIsbn = addNewBook.getIsbn();
+
+        // Получаем другой случайный ISBN, который не равен добавленному
+        String nonExistentIsbn;
+        do {
+            nonExistentIsbn = TestData.getRandomIsbn();
+        } while (nonExistentIsbn.equals(addedIsbn));
+
+        // Пытаемся удалить книгу с несуществующим ISBN
+        apiSteps.deleteNonExistentBookByIsbn(nonExistentIsbn);
     }
 }

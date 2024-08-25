@@ -26,6 +26,16 @@ public class RequestResponseSpecs {
            .log(ALL)
            .build();
 
+    public static ResponseSpecification responseSpec204 = new ResponseSpecBuilder()
+           .expectStatusCode(204)
+           .log(ALL)
+           .build();
+
+    public static ResponseSpecification responseSpec400 = new ResponseSpecBuilder()
+        .expectStatusCode(400)
+        .log(ALL)
+        .build();
+
     public static ResponseSpecification unauthorizedResponseSpec401 = new ResponseSpecBuilder()
            .expectStatusCode(401)
            .log(ALL)

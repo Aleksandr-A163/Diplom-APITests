@@ -158,4 +158,60 @@ public class ApiSteps {
         return response;
     }
 
+    @Step("Delete a book from user profile by ISBN")
+    public static Response deleteBookByIsbn(String isbn) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID is not set. Please register a user first.");
+        }
+
+        String token = extractValueFromCookieString("token");
+
+        // Создание тела запроса для удаления книги
+        DeleteBooksRequestModel deleteBookData = new DeleteBooksRequestModel();
+        deleteBookData.setUserId(userId);
+        deleteBookData.setIsbn(isbn);
+
+        Response response = given()
+                .spec(registerAndLoginRequestSpec)
+                .header("Authorization", "Bearer " + token)
+                .body(deleteBookData)
+                .when()
+                .delete("/BookStore/v1/Book")
+                .then()
+                .spec(responseSpec204)
+                .extract().response();
+
+        System.out.println("Delete Book Response: " + response.asString());
+
+        return response;
+    }
+
+    @Step("Attempt to delete a non-existent book by ISBN")
+    public static Response deleteNonExistentBookByIsbn(String isbn) {
+    if (userId == null) {
+        throw new IllegalArgumentException("User ID is not set. Please register a user first.");
+    }
+
+    String token = extractValueFromCookieString("token");
+
+    // Создание тела запроса для удаления несуществующей книги
+    DeleteBooksRequestModel deleteBookData = new DeleteBooksRequestModel();
+    deleteBookData.setUserId(userId);
+    deleteBookData.setIsbn(isbn);
+
+    Response response = given()
+            .spec(registerAndLoginRequestSpec)
+            .header("Authorization", "Bearer " + token)
+            .body(deleteBookData)
+            .when()
+            .delete("/BookStore/v1/Book")
+            .then()
+            .spec(responseSpec400)  // Ожидаем код 400 Bad Request или 404 Not Found
+            .extract().response();
+
+    System.out.println("Delete Non-Existent Book Response: " + response.asString());
+
+    return response;
+}
+
 }
