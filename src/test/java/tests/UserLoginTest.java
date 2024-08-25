@@ -14,7 +14,7 @@ import pages.ProfilePage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Tag("API")
+@Tag("Auth")
 @DisplayName("Tests for user login")
 @Owner("Anosov Aleksandr")
 @Feature("User Authorization")

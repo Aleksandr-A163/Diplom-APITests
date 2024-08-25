@@ -72,6 +72,6 @@ compileTestJava {
 
 task API(type: Test) {
     useJUnitPlatform {
-        includeTags("API")
+        includeTags("Book", "Auth")
     }
 }
