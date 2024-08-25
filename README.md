@@ -38,8 +38,8 @@
 - ✓ *invalidUserAuthorizationTest() - Тест для некорректной авторизации*
 - ✓ *addBookToCustomerProfileBooksListTest() - Тест для проверки добавления случайно выбранной книги в профиль пользователя* 
 - ✓ *addBookToCustomerProfileWithInvalidTokenTest() - Тест для проверки добавления случайно выбранной книги в профиль пользователя*
-- ✓ *deleteBookFromProfileBooksListTest() - Тест для проверки удаления случайно выбранной книги из профиль пользователя*
-- ✓ *deleteNonCorrectBookFromProfileTest()  - Тест для проверки удаления случайно выбранной книги из профиль пользователя*
+- ✓ *deleteBookFromProfileBooksListTest() - Тест для проверки удаления случайно выбранной книги из профиля пользователя*
+- ✓ *deleteNonCorrectBookFromProfileTest()  - Тест для проверки удаления случайно выбранной книги из профиля пользователя*
  
  
 Содержание Allure-отчета:
