@@ -4,13 +4,11 @@ import api.ApiSteps;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import models.LoginResponseModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import pages.ProfilePage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,7 +22,6 @@ public class UserLoginTest extends TestBase {
     @DisplayName("Authorization of a random user")
     @Owner("Anosov Aleksandr")
     @Description("Test for successful authorization of a randomly generated user.")
-    @Story("User Authorization")
     void userAuthorizationTest() {
         // Регистрация нового пользователя
         ApiSteps.registerUser();
@@ -53,8 +50,6 @@ public class UserLoginTest extends TestBase {
     @DisplayName("Authorization with invalid credentials")
     @Owner("Anosov Aleksandr")
     @Description("Test for handling invalid authorization with incorrect token.")
-    @Story("User Authorization")
-    @Feature("User account")
     void invalidUserAuthorizationTest() {
         // Регистрация нового пользователя
         ApiSteps.registerUser();

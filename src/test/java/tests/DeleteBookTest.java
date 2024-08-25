@@ -11,11 +11,12 @@ import org.junit.jupiter.api.Test;
 import pages.ProfilePage;
 
 
-@Tag("Book")
-@DisplayName("Tests for Book Store Application")
+
+@DisplayName("Tests for deleting a book in the Store Application")
 @Owner("Anosov Aleksandr")
 @Story("Book delete actions")
 @Feature("Book Store")
+@Tag("Book")
 public class DeleteBookTest extends TestBase {
 
     final ProfilePage profilePage = new ProfilePage();

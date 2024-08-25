@@ -11,7 +11,7 @@ import pages.ProfilePage;
 
 
 @Tag("Book")
-@DisplayName("Tests for Book Store Application")
+@DisplayName("Tests for adding a book in the Store Application")
 @Owner("Anosov Aleksandr")
 @Story("Book add actions")
 @Feature("Book Store")
