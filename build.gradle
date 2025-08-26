@@ -8,12 +8,12 @@ allure {
     report {
         version.set("2.27.0")
     }
-    adapter { // отвечает за появление папочки build/allure-results
+    adapter {
         aspectjVersion.set("1.9.22")
-        aspectjWeaver.set(true) //обработка аннотации @Step
+        aspectjWeaver.set(true) // @Step weaving
         frameworks {
-            junit5 { //название фреймворка
-                adapterVersion.set("2.27.0") //версия интеграции фреймворка и Allure
+            junit5 {
+                adapterVersion.set("2.27.0")
             }
         }
     }
@@ -23,55 +23,41 @@ repositories {
     mavenCentral()
 }
 
-def selenideVersion = "7.3.1",
-    restAssuredVersion = "5.4.0",
-    jUnitVersion = "5.10.2",
-    assertJVersion = "3.26.0",
-    allureVersion = "2.27.0"
-
-
+def restAssuredVersion = "5.4.0",
+    jUnitVersion      = "5.10.2",
+    assertJVersion    = "3.26.0",
+    allureVersion     = "2.27.0",
+    jacksonVersion    = "2.17.2",
+    slf4jVersion      = "2.0.13",
+    httpcoreVersion   = "4.4.16"
 
 dependencies {
     testImplementation(
-            "com.codeborne:selenide:$selenideVersion",
-            "io.qameta.allure:allure-selenide:$allureVersion",
-            "io.rest-assured:rest-assured:$restAssuredVersion",
-            "io.rest-assured:json-schema-validator:$restAssuredVersion",
-            "io.qameta.allure:allure-rest-assured:$allureVersion",
-            "org.junit.jupiter:junit-jupiter:$jUnitVersion",
-            "org.assertj:assertj-core:$assertJVersion",
-            'com.github.javafaker:javafaker:1.0.2',
-            'org.slf4j:slf4j-simple:2.0.13',
-            "org.aeonbits.owner:owner:1.0.12",
-            'org.slf4j:slf4j-simple:2.0.7'
+            "io.rest-assured:rest-assured:${restAssuredVersion}",
+            "io.rest-assured:json-schema-validator:${restAssuredVersion}",
+            "io.qameta.allure:allure-junit5:${allureVersion}",
+            "io.qameta.allure:allure-rest-assured:${allureVersion}",
+            "org.junit.jupiter:junit-jupiter:${jUnitVersion}",
+            "org.assertj:assertj-core:${assertJVersion}",
+            "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}",
+            "org.apache.httpcomponents:httpcore:${httpcoreVersion}" // for org.apache.http.HttpStatus
     )
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
+    testRuntimeOnly("org.slf4j:slf4j-simple:${slf4jVersion}")
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
-
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
-    systemProperties(System.getProperties())
-    testLogging {
-        lifecycle {
-            events "started", "skipped", "failed", "standard_error", "standard_out"
-            exceptionFormat "short"
-        }
-    }
+    systemProperty "junit.jupiter.execution.parallel.enabled", "false"
 }
 
-compileJava {
-    options.encoding = 'UTF-8'
-}
-compileTestJava {
-    options.encoding = 'UTF-8'
-}
+compileJava { options.encoding = 'UTF-8' }
+compileTestJava { options.encoding = 'UTF-8' }
 
 task API(type: Test) {
     useJUnitPlatform {
-        includeTags("Book", "Auth")
+        includeTags("Booking", "Auth")
     }
 }
